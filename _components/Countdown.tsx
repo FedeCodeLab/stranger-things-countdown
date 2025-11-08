@@ -88,7 +88,7 @@ export default function Countdown() {
         </div>
 
         <p className="text-xl md:text-2xl mb-16 text-gray-300 font-light tracking-widest">
-          SEASON 5: THE FINAL CHAPTER
+          SEASON 5: THE FINAL SEASON
         </p>
 
         <div
