@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://stranger-things-countdown.vercel.app/sitemap.xml
+
+# Disallow crawling of admin or private areas if they exist
+Disallow: /admin
+Disallow: /api
