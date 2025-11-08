@@ -1,5 +1,5 @@
-import Countdown from "@/_components/Countdown";
-import Gallery from "@/_components/gallery";
+import { Countdown } from "@/_components/Countdown";
+import { Gallery } from "@/_components/gallery";
 
 export default function Home() {
   return (

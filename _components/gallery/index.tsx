@@ -1,4 +1,10 @@
-export default function Gallery() {
+"use client";
+
+import { useState } from "react";
+import { Modal } from "../Modal";
+import { Card } from "./Card";
+
+export const Gallery = () => {
   const videos = [
     {
       id: 1,
@@ -20,6 +26,19 @@ export default function Gallery() {
     },
   ];
 
+  const [selectedVideo, setSelectedVideo] = useState<{
+    title: string;
+    src: string;
+  } | null>(null);
+
+  const openModal = (video: { title: string; src: string }) => {
+    setSelectedVideo(video);
+  };
+
+  const closeModal = () => {
+    setSelectedVideo(null);
+  };
+
   return (
     <section
       className="py-20 px-4 bg-black border-t-2 border-[#FF1744]"
@@ -28,18 +47,22 @@ export default function Gallery() {
       <div className="max-w-6xl mx-auto">
         <h2
           id="videos-heading"
-          className="text-4xl md:text-5xl font-bold mb-12 text-center"
+          className="text-4xl md:text-5xl font-bold mb-12 text-center uppercase"
           style={{
             color: "#FF1744",
             textShadow: "0 0 10px rgba(255, 23, 68, 0.6)",
           }}
         >
-          MOMENTOS DE LA PREMIERE
+          Desde el Otro Lado: Avances de la Temporada 5
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {videos.map((video) => (
-            <article key={video.id} className="group">
+        <div className="grid grid-cols-1 gap-12">
+          {videos.map((video, index) => (
+            <Card
+              key={video.id}
+              onClick={() => openModal({ title: video.title, src: video.src })}
+              className={index === 0 ? "md:col-span-2" : ""}
+            >
               <div className="relative overflow-hidden border-2 border-[#FF1744] bg-black">
                 <div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-t from-[#FF1744]/20 to-transparent transition-opacity duration-300"
@@ -47,7 +70,7 @@ export default function Gallery() {
                 />
                 <iframe
                   width="100%"
-                  height="300"
+                  height="400"
                   src={video.src}
                   title={video.title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -56,14 +79,25 @@ export default function Gallery() {
                   loading="lazy"
                 />
               </div>
-              <p className="mt-4 text-gray-300 font-semibold text-lg">
-                {video.title}
-              </p>
-              <p className="text-gray-400 text-sm mt-2">{video.description}</p>
-            </article>
+              <div className="py-4">
+                <p className="text-gray-300 font-semibold text-lg">
+                  {video.title}
+                </p>
+                <p className="text-gray-400 text-sm mt-2">
+                  {video.description}
+                </p>
+              </div>
+            </Card>
           ))}
         </div>
+
+        <Modal
+          isOpen={!!selectedVideo}
+          onClose={closeModal}
+          title={selectedVideo?.title || ""}
+          src={selectedVideo?.src || ""}
+        />
       </div>
     </section>
   );
-}
+};
