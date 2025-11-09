@@ -2,6 +2,7 @@
 
 import { TimeLeft } from "@/types/premiere.types";
 import { useEffect, useState } from "react";
+import { CountdownSkeleton } from "./CountdownSkeleton";
 
 export const Premiere = () => {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
@@ -35,7 +36,10 @@ export const Premiere = () => {
     return () => clearInterval(timer);
   }, []);
 
-  if (!mounted) return null;
+  if (!mounted) {
+    return <CountdownSkeleton />;
+  }
+
   return (
     <div
       className="grid grid-cols-4 gap-4 mb-12"

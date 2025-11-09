@@ -1,24 +1,22 @@
-import type { Metadata } from "next";
+import { seoConfig, jsonLdSchema } from "./seo.config";
 import { Geist, Geist_Mono } from "next/font/google";
-import Script from "next/script";
-import "./globals.css";
 import { Navbar } from "@/_components/navbar";
 import { Footer } from "@/_components/footer";
+import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "Stranger Things Countdown",
-  description: "Cuenta regresiva para el estreno de Stranger Things 5",
-};
+export const metadata = seoConfig;
 
 export default function RootLayout({
   children,
@@ -26,21 +24,35 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="es">
       <head>
         <meta name="google-adsense-account" content="ca-pub-9502312146564227" />
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
-      >
-        <Script
+        <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9502312146564227"
           crossOrigin="anonymous"
-          strategy="lazyOnload"
         />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSchema) }}
+        />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link rel="dns-prefetch" href="https://www.youtube.com" />
+        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+      </head>
+
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
+      >
         <Navbar />
-        {children}
+        <main>{children}</main>
         <Footer />
       </body>
     </html>
