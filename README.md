@@ -188,7 +188,7 @@ Este proyecto es de código abierto y está disponible bajo la licencia MIT.
 
 ## 👨‍💻 Autor
 
-**Federico Arias** - [@FedeCodeLab](https://github.com/FedeCodeLab)
+**Federico Pablo Guzmán** - [@FedeCodeLab](https://github.com/FedeCodeLab)
 
 ## 🙏 Agradecimientos
 
