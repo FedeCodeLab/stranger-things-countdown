@@ -106,7 +106,7 @@ export const Countdown = () => {
               key={idx}
               className="border-2 border-[#FF1744] p-6 md:p-8 bg-black bg-opacity-50 backdrop-blur-sm hover:shadow-lg transition-all"
               style={{
-                boxShadow: "0 0 10px rgba(255, 23, 68, 0.5)",
+                boxShadow: "0 0 20px rgba(255, 23, 68, 0.5)",
               }}
             >
               <div
