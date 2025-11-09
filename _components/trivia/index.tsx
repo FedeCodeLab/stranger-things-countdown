@@ -1,14 +1,22 @@
 "use client";
-
+import { useRef, useEffect } from "react";
 import { DifficultySelector } from "./DifficultySelector";
-import { useTriviaStore } from "@/store/quiz";
 import { TriviaGame } from "./TriviaGame";
+import { useTriviaStore } from "@/store/quiz";
+import { useScrollStore } from "@/store/scrollTo";
 
 export const Trivia = () => {
   const { difficulty } = useTriviaStore();
+  const { setTriviaRef } = useScrollStore();
+  const triviaSectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    setTriviaRef(triviaSectionRef);
+  }, [setTriviaRef]);
 
   return (
     <section
+      ref={triviaSectionRef}
       className="py-20 bg-black border-t-2 border-[#FF1744]"
       aria-labelledby="trivia-heading"
     >
@@ -26,9 +34,7 @@ export const Trivia = () => {
 
         <div
           className="grid grid-cols-1 items-center justify-center gap-12 bg-neutral-950 border-2 border-[#FF1744] p-10 w-full rounded-xl min-h-[500px]"
-          style={{
-            boxShadow: "0 0 20px rgba(255, 23, 68, 0.5)",
-          }}
+          style={{ boxShadow: "0 0 20px rgba(255, 23, 68, 0.5)" }}
         >
           {!difficulty ? <DifficultySelector /> : <TriviaGame />}
         </div>

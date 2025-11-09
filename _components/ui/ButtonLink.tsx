@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import Link from "next/link";
 import clsx from "clsx";
 
 type ButtonVariant = "default" | "correct" | "incorrect";
@@ -6,16 +7,16 @@ type ButtonVariant = "default" | "correct" | "incorrect";
 interface ButtonProps {
   children: ReactNode;
   variant?: ButtonVariant;
-  onClick?: () => void;
+  href: string;
 }
 
-export const Button = ({
+export const ButtonLink = ({
   children,
   variant = "default",
-  onClick,
+  href,
 }: ButtonProps) => {
   const baseStyles =
-    "flex items-center justify-center select-none gap-2 px-6 py-2 text-white font-bold text-[14px] rounded-lg transition-all transform hover:scale-105 border-2 cursor-pointer";
+    "flex items-center w-fit justify-center select-none gap-2 px-6 py-2 text-white font-bold text-[14px] rounded-lg transition-all transform hover:scale-105 border-2 cursor-pointer";
 
   const variantStyles = {
     default: "bg-neutral-800 hover:bg-neutral-700 border-neutral-600",
@@ -24,11 +25,8 @@ export const Button = ({
   };
 
   return (
-    <button
-      onClick={onClick}
-      className={clsx(baseStyles, variantStyles[variant])}
-    >
+    <Link target="_blank" href={href} className={clsx(baseStyles, variantStyles[variant])}>
       {children}
-    </button>
+    </Link>
   );
 };
