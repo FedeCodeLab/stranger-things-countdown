@@ -1,7 +1,7 @@
 "use client";
 
+import { Modal } from "../ui/Modal";
 import { useState } from "react";
-import { Modal } from "../Modal";
 import { Card } from "./Card";
 
 export const Gallery = () => {
@@ -41,10 +41,10 @@ export const Gallery = () => {
 
   return (
     <section
-      className="py-20 px-4 bg-black border-t-2 border-[#FF1744]"
+      className="py-20 bg-black border-t-2 border-[#FF1744]"
       aria-labelledby="videos-heading"
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="">
         <h2
           id="videos-heading"
           className="text-4xl md:text-5xl font-bold mb-12 text-center uppercase"
@@ -63,9 +63,14 @@ export const Gallery = () => {
               onClick={() => openModal({ title: video.title, src: video.src })}
               className={index === 0 ? "md:col-span-2" : ""}
             >
-              <div className="relative overflow-hidden border-2 border-[#FF1744] bg-black">
+              <div
+                className="relative overflow-hidden border-2 border-[#FF1744] bg-black"
+                style={{
+                  boxShadow: "0 0 20px rgba(255, 23, 68, 0.5)",
+                }}
+              >
                 <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-t from-[#FF1744]/20 to-transparent transition-opacity duration-300"
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 from-[#FF1744]/20 to-transparent transition-opacity duration-300"
                   aria-hidden="true"
                 />
                 <iframe
