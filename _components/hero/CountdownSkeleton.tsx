@@ -12,7 +12,6 @@ export const CountdownSkeleton = () => {
             boxShadow: "0 0 20px rgba(255, 23, 68, 0.5)",
           }}
         >
-          {/* Skeleton para el número */}
           <div className="flex justify-center items-center mb-2">
             <div
               className="h-8 md:h-12 w-12 md:w-20 rounded animate-pulse"
@@ -24,8 +23,7 @@ export const CountdownSkeleton = () => {
               }}
             />
           </div>
-          
-          {/* Label */}
+
           <div className="text-xs md:text-sm tracking-widest text-gray-400 text-center">
             {label}
           </div>
