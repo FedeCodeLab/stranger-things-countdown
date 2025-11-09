@@ -9,7 +9,7 @@ interface TimeLeft {
   seconds: number;
 }
 
-export default function Countdown() {
+export const Countdown = () => {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
     days: 0,
     hours: 0,
@@ -131,4 +131,4 @@ export default function Countdown() {
       </div>
     </section>
   );
-}
+};
