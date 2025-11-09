@@ -1,9 +1,10 @@
 "use client";
-import { useRef, useEffect } from "react";
+
 import { DifficultySelector } from "./DifficultySelector";
-import { TriviaGame } from "./TriviaGame";
-import { useTriviaStore } from "@/store/quiz";
 import { useScrollStore } from "@/store/scrollTo";
+import { useTriviaStore } from "@/store/quiz";
+import { useRef, useEffect } from "react";
+import { TriviaGame } from "./TriviaGame";
 
 export const Trivia = () => {
   const { difficulty } = useTriviaStore();

@@ -1,5 +1,7 @@
+"use client";
+
 import { easyQuestions, hardQuestions } from "@/data/questions";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useTriviaStore } from "@/store/quiz";
 
 export const TriviaGame = () => {
@@ -16,6 +18,8 @@ export const TriviaGame = () => {
   const questions = difficulty === "easy" ? easyQuestions : hardQuestions;
   const currentQuestion = questions[currentQuestionIndex];
   const [showResult, setShowResult] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(10);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const calculateScore = useCallback(() => {
     return questions.reduce((score, question, index) => {
@@ -26,14 +30,43 @@ export const TriviaGame = () => {
   }, [questions, selectedAnswers]);
 
   useEffect(() => {
-    if (isFinished) {
-      const score = calculateScore();
-      if (score > 5) {
-      }
+    setTimeLeft(10);
+    if (timerRef.current) clearInterval(timerRef.current);
+
+    timerRef.current = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev === 1) {
+          clearInterval(timerRef.current!);
+          handleTimeout();
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentQuestionIndex]);
+
+  const handleTimeout = () => {
+    if (!selectedAnswers[currentQuestionIndex]) {
+      selectAnswer(currentQuestionIndex, "");
+      setShowResult(true);
+
+      setTimeout(() => {
+        setShowResult(false);
+        if (currentQuestionIndex < questions.length - 1) {
+          nextQuestion();
+        } else {
+          finishQuiz();
+        }
+      }, 1500);
     }
-  }, [isFinished, selectedAnswers, questions, calculateScore]);
+  };
 
   const handleAnswerSelect = (answer: string) => {
+    if (timerRef.current) clearInterval(timerRef.current);
     selectAnswer(currentQuestionIndex, answer);
     setShowResult(true);
 
@@ -47,6 +80,12 @@ export const TriviaGame = () => {
     }, 1500);
   };
 
+  useEffect(() => {
+    if (isFinished) {
+      if (timerRef.current) clearInterval(timerRef.current);
+    }
+  }, [isFinished]);
+
   if (isFinished) {
     const score = calculateScore();
     const isWinner = score > 5;
@@ -54,7 +93,7 @@ export const TriviaGame = () => {
     return (
       <div className="text-center py-10">
         <h3 className="text-3xl md:text-4xl font-bold mb-6 text-gray-200">
-          {isWinner ? "¡Ganaste!" : "¡Gracias por jugar!"}
+          {isWinner ? "¡Ganaste!" : "Perdiste"}
         </h3>
         <p className="text-2xl mb-8 text-gray-300">
           Tu puntuación:{" "}
@@ -67,10 +106,13 @@ export const TriviaGame = () => {
             : "Sigue viendo la serie para convertirte en experto 👍"}
         </p>
         <button
-          onClick={() => window.location.reload()}
-          className="px-8 py-4 bg-[#FF1744] hover:bg-[#D50000] text-white font-bold text-xl rounded-lg transition-all transform hover:scale-105 shadow-lg hover:shadow-xl border-2 border-[#FF1744]"
+          onClick={() => {
+            if (timerRef.current) clearInterval(timerRef.current);
+            useTriviaStore.getState().resetQuiz();
+          }}
+          className="px-4 cursor-pointer py-2 bg-[#FF1744] hover:bg-[#D50000] text-white font-semibold text-[16px] rounded-lg transition-all transform hover:scale-105 border-2 border-[#FF1744]"
         >
-          Volver al inicio
+          Volver a empezar
         </button>
       </div>
     );
@@ -95,7 +137,7 @@ export const TriviaGame = () => {
         </div>
         <div className="w-full bg-gray-700 rounded-full h-2.5">
           <div
-            className="bg-[#FF1744] h-2.5 rounded-full"
+            className="bg-[#FF1744] h-2.5 rounded-full transition-all"
             style={{
               width: `${
                 ((currentQuestionIndex + 1) / questions.length) * 100
@@ -103,6 +145,17 @@ export const TriviaGame = () => {
             }}
           ></div>
         </div>
+      </div>
+
+      <div className="text-center text-lg text-gray-300 mb-6">
+        Tiempo restante:{" "}
+        <span
+          className={`font-bold ${
+            timeLeft <= 3 ? "text-[#FF1744]" : "text-gray-100"
+          }`}
+        >
+          {timeLeft}s
+        </span>
       </div>
 
       <h3 className="text-xl md:text-2xl font-bold mb-8 text-gray-200 text-center">
@@ -114,7 +167,7 @@ export const TriviaGame = () => {
           let buttonClass =
             "w-full text-left p-4 rounded-lg border-2 transition-all ";
 
-          if (showResult && selectedAnswer) {
+          if (showResult && selectedAnswer !== undefined) {
             if (option === currentQuestion.correctAnswer) {
               buttonClass += "bg-green-600 border-green-500 text-white";
             } else if (
