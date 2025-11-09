@@ -2,7 +2,8 @@ import { Metadata } from "next";
 
 const siteUrl = "https://stranger-things-countdown.vercel.app";
 const siteName = "Stranger Things 5 Countdown";
-const siteDescription = "Cuenta regresiva oficial para el estreno de Stranger Things Temporada 5. Disfruta de trailers exclusivos, trivia interactiva y contenido sobre la temporada final de la serie más esperada de Netflix.";
+const siteDescription =
+  "Cuenta regresiva para el estreno de Stranger Things Temporada 5. Disfruta de trailers exclusivos, trivia interactiva y contenido sobre la temporada final de la serie más esperada de Netflix.";
 
 const seoKeywords = [
   "stranger things 5",
@@ -106,7 +107,6 @@ export const seoConfig: Metadata = {
   },
 };
 
-// JSON-LD Schema para SEO estructurado
 export const jsonLdSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
