@@ -18,9 +18,6 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Stranger Things Countdown",
   description: "Cuenta regresiva para el estreno de Stranger Things 5",
-  other: {
-    "google-adsense-account": "ca-pub-9502312146564227",
-  },
 };
 
 export default function RootLayout({
@@ -30,6 +27,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta name="google-adsense-account" content="ca-pub-9502312146564227" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
       >
@@ -37,7 +37,7 @@ export default function RootLayout({
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9502312146564227"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
         <Navbar />
         {children}
